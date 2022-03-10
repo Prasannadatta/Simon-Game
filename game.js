@@ -1,9 +1,11 @@
+// declaration of variables
 let userClickedPattern = [];
 let gamePattern = [];
 let buttonColours = ["red", "blue", "green", "yellow"];
 let level = 0;
 let started = false;
 
+// to detect key press and start the game
 $(document).keydown(() => {
   if (!started) {
     $("#level-title").text("level " + level);
@@ -12,6 +14,7 @@ $(document).keydown(() => {
   }
 });
 
+// for button press
 $(".btn").click(function() {
   let userChosenColour = $(this).attr("id");
   userClickedPattern.push(userChosenColour);
@@ -20,6 +23,7 @@ $(".btn").click(function() {
   checkAnswer(userClickedPattern.length - 1);
 });
 
+// to check user answer with computer generated answer
 function checkAnswer(currentLevel) {
   if (userClickedPattern[currentLevel] === gamePattern[currentLevel]) {
     if (userClickedPattern.length === gamePattern.length) {
@@ -37,12 +41,7 @@ function checkAnswer(currentLevel) {
   }
 }
 
-function startOver() {
-  level=0;
-  started= false;
-  gamePattern=[];
-}
-
+// to generate next computer sequence
 function nextSequence() {
   userClickedPattern = [];
   let randomNumber = Math.floor(Math.random() * 4);
@@ -56,14 +55,23 @@ function nextSequence() {
   $("#level-title").text("level " + level);
 }
 
+// function for playing sound
 function playSound(name) {
   var audio = new Audio("sounds/" + name + ".mp3");
   audio.play();
 }
 
+// function for blink animation
 function animatePress(currentColour) {
   $("#" + currentColour).addClass("pressed");
   setTimeout(() => {
     $("#" + currentColour).removeClass("pressed");
   }, 200);
+}
+
+// to start over once game is over
+function startOver() {
+  level=0;
+  started= false;
+  gamePattern=[];
 }
